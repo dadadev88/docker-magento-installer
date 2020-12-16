@@ -12,34 +12,34 @@
   ```
   - Sino esta instalado se puede instalar con:
     - Ubuntu o distribuciones basadas en Debian
-    ```
-    sudo apt install curl
-    ```
+      ```
+      sudo apt install curl
+      ```
     - CentOS/Fedora
-    ```
-    yum install curl
-    ```
+      ```
+      yum install curl
+      ```
 - Docker, se puede instalar con este comando, sino se pueden usar otras opciones existentes en *https://docs.docker.com/engine/install/* según la distribución.
-```sh
-$ curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh
-```
+  ```
+  $ curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh
+  ```
 - MySQL, si desa instalar con Docker usar este comando, sino se instala desde apt (Ubuntu/Debian), XAMPP o cualquier otra herramienta.
   - NOTA: este comando creará un un contenedor con usuario "root" y contraseña "root", si desea cambiar la contraseña cambiar el valor de MYSQL_ROOT_PASSWORD, y ejecutará en el puerto 3306
-```
-$ docker run --name mysql5.7 -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:5.7 --lower_case_table_names=1 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-```
+  ```
+  $ docker run --name mysql5.7 -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:5.7 --lower_case_table_names=1 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+  ```
 
 ## Pasos para instalación
 1. Copiar contenido de carpeta Magento (descargado desde la web) hacia un directorio, por ejemplo **/home/usuario/proyectos/magento236**
 2. Moverse al directorio creado (paso 1) con el contenido de Magento.
-```
-$ cd /home/usuario/proyectos/magento236
-```
+  ```
+  $ cd /home/usuario/proyectos/magento236
+  ```
 
 3. Dar permiso de RWX a carpetas internas de Magento
-```
-$ chmod -R 777 var/ pub/static/ generated/ app/etc pub/media
-```
+  ```
+  $ chmod -R 777 var/ pub/static/ generated/ app/etc pub/media
+  ```
 
 4. Crear imagen Docker para servir Magento
    - NOTA: este proceso demorará un poco ya que es donde realiza la descarga de la imagen Docker PHP con Apache e instalación de extensiones PHP. Luego se puede validar que se ha creado satisfactoriamente la imagen
@@ -47,7 +47,7 @@ $ chmod -R 777 var/ pub/static/ generated/ app/etc pub/media
     $ docker build -t magento236:v1.0.0 .
     $ docker images 
     REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-    magento236          v0.1                e1e5fccb56f4        12 hours ago        428MB
+    magento236          v1.0.0              e1e5fccb56f4        12 hours ago        428MB
     ```
 
 5. Crear contenedor Docker que ejecutará Magento.
@@ -64,15 +64,24 @@ $ chmod -R 777 var/ pub/static/ generated/ app/etc pub/media
     $ docker run --name magento -p $PUERTO_PC:80 -v $RUTA_MAGENTO:/var/www/html --restart always -d magento236:v1.0.0
     ```
 
+   - Para validar la creación del contenedor.
+    ```
+    $ docker ps
+    CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
+    96bcfa158c4d        magento236:v1.0.0   "docker-php-entrypoi…"   12 hours ago        Up 18 seconds       0.0.0.0:8088->80/tcp magento
+    # Si se ejecutó en puerto 80 se observará de la siguiente forma
+    96bcfa158c4d        magento236:v1.0.0   "docker-php-entrypoi…"   12 hours ago        Up 18 seconds       0.0.0.0:80->80/tcp   magento
+    ```
+
 6. Si desea ingresar con URL mas amigable se debe configurar un nuevo host en el SO (OPCIONAL)
    - Editar archivo hosts con permisos super usuario
-  ```
-  $ sudo nano /etc/hosts
-  ```
+    ```
+    $ sudo nano /etc/hosts
+    ```
    - Agregar y guardar la siguiente línea
-  ```
-  127.0.0.1   magento.everis.local.com
-  ```
+    ```
+    127.0.0.1   magento.everis.local.com
+    ```
    - Luego puede ingresar con:
     - http://magento.everis.local.com:8088
     - http://magento.everis.local.com (si se ejecutó paso 5 en el puerto 80)
@@ -81,7 +90,6 @@ $ chmod -R 777 var/ pub/static/ generated/ app/etc pub/media
     - Si desea instalar desde la web e ingresar a la URL y seguir los pasos.
       - http://localhost:8088 o http://127.0.0.1:8088
       - http://localhost o 127.0.0.1 (si se ejecutó paso 5 en el puerto 80)
-
     - Si desea instalar desde Magento CLI
     ```
     $ ./bin/magento setup:install \
