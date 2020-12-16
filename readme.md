@@ -29,7 +29,7 @@ $ curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh
 $ docker run --name mysql5.7 -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql:5.7 --lower_case_table_names=1 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
-## Pasos para instalar
+## Pasos para instalación
 1. Copiar contenido de carpeta Magento (descargado desde la web) hacia un directorio, por ejemplo **/home/usuario/proyectos/magento236**
 2. Moverse al directorio creado (paso 1) con el contenido de Magento.
 ```
@@ -42,10 +42,13 @@ $ chmod -R 777 var/ pub/static/ generated/ app/etc pub/media
 ```
 
 4. Crear imagen Docker para servir Magento
-   - NOTA: este proceso demorará un poco ya que es donde realiza la descarga de la imagen Docker PHP con Apache e instalación de extensiones PHP
-```
-$ docker build -t magento236:v1.0.0 .
-```
+   - NOTA: este proceso demorará un poco ya que es donde realiza la descarga de la imagen Docker PHP con Apache e instalación de extensiones PHP. Luego se puede validar que se ha creado satisfactoriamente la imagen
+    ```
+    $ docker build -t magento236:v1.0.0 .
+    $ docker images 
+    REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+    magento236          v0.1                e1e5fccb56f4        12 hours ago        428MB
+    ```
 
 5. Crear contenedor Docker que ejecutará Magento.
    - Consideraciones:
