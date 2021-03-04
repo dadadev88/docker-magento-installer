@@ -25,7 +25,7 @@
   $ sudo usermod -aG docker $USER
   ```
 - MySQL, si desea instalar con Docker usar este comando, sino se instala desde apt (Ubuntu/Debian), XAMPP o cualquier otra herramienta.
-  - NOTA: este comando creará un un contenedor con usuario "root" y contraseña "root", si desea cambiar la contraseña cambiar el valor de MYSQL_ROOT_PASSWORD, y ejecutará en el puerto 3306
+  - NOTA: este comando creará un contenedor con usuario "root" y contraseña "root", si desea cambiar la contraseña cambiar el valor de MYSQL_ROOT_PASSWORD, y ejecutará en el puerto 3306
   ```
   $ docker run --name mysql5.7 -e MYSQL_ROOT_PASSWORD=root --restart always -p 3306:3306 -d mysql:5.7 --lower_case_table_names=1 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
   ```
